@@ -1,0 +1,258 @@
+/* Goodreads Classic Reading Challenge */
+
+[data-gr-classic-challenge-hidden] {
+  display: none !important;
+}
+
+[data-gr-classic-challenge-layout-shell],
+[data-gr-classic-challenge-layout] {
+  box-sizing: border-box !important;
+  max-width: 900px !important;
+  width: calc(100vw - 32px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+[data-gr-classic-challenge-content] {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 22px 16px 48px;
+  color: #181818;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#gr-classic-challenge-summary {
+  width: 100%;
+  margin: 0 0 10px;
+}
+
+.gr-classic-progress-row {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  gap: 13px;
+}
+
+.gr-classic-progress {
+  margin: 0;
+  color: #111;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.gr-classic-badge {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ded9ca;
+  border-radius: 50%;
+  background: #f1efe5;
+  box-sizing: border-box;
+}
+
+.gr-classic-badge-book {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 19px;
+  border-bottom: 2px solid #d1cbb7;
+}
+
+.gr-classic-badge-book::before,
+.gr-classic-badge-book::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  width: 10px;
+  height: 15px;
+  background: #d8d2bf;
+}
+
+.gr-classic-badge-book::before {
+  left: 0;
+  border-radius: 8px 1px 1px 0;
+  transform: skewY(11deg);
+}
+
+.gr-classic-badge-book::after {
+  right: 0;
+  border-radius: 1px 8px 0 1px;
+  transform: skewY(-11deg);
+}
+
+.gr-classic-divider {
+  height: 1px;
+  margin: 10px 0 7px;
+  border: 0;
+  background: #d8d8d8;
+}
+
+.gr-classic-books-heading {
+  margin: 0 0 9px;
+  color: #252525;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+[data-gr-classic-challenge-books] {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-gr-classic-challenge-books] > div,
+[data-gr-classic-challenge-books] > div > div,
+[data-gr-classic-challenge-books] > div > div > div,
+[data-gr-classic-challenge-books] > div > div > div > div {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+}
+
+ul[data-gr-classic-challenge-grid] {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, 76px) !important;
+  align-items: start !important;
+  justify-content: start !important;
+  gap: 18px 12px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+ul[data-gr-classic-challenge-grid] > li,
+ul[data-gr-classic-challenge-grid] > li > li {
+  display: block !important;
+  width: 76px !important;
+  min-width: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  list-style: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+ul[data-gr-classic-challenge-grid] > li > li > div:first-child {
+  display: block !important;
+  width: 76px !important;
+  height: 112px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+ul[data-gr-classic-challenge-grid] > li > li > div:not(:first-child) {
+  display: none !important;
+}
+
+ul[data-gr-classic-challenge-grid] .BookCard__cover,
+ul[data-gr-classic-challenge-grid] [data-testid="base-clickable"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 76px !important;
+  height: 112px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  cursor: pointer !important;
+}
+
+ul[data-gr-classic-challenge-grid] .BookCover,
+ul[data-gr-classic-challenge-grid] .BookCover__image,
+ul[data-gr-classic-challenge-grid] [data-testid="book-cover"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 76px !important;
+  height: 112px !important;
+  min-height: 0 !important;
+  aspect-ratio: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  background: transparent !important;
+}
+
+ul[data-gr-classic-challenge-grid] img {
+  display: block !important;
+  width: 76px !important;
+  height: 112px !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  box-shadow: none !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  transition: transform 100ms ease, filter 100ms ease;
+}
+
+ul[data-gr-classic-challenge-grid] button:hover img,
+ul[data-gr-classic-challenge-grid] button:focus-visible img {
+  transform: translateY(-2px);
+  box-shadow: none !important;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.36));
+}
+
+ul[data-gr-classic-challenge-grid] button:focus-visible {
+  outline: 2px solid #382110 !important;
+  outline-offset: 3px !important;
+}
+
+@media (max-width: 520px) {
+  [data-gr-classic-challenge-layout-shell],
+  [data-gr-classic-challenge-layout] {
+    width: calc(100vw - 20px) !important;
+  }
+
+  [data-gr-classic-challenge-content] {
+    padding-top: 14px;
+  }
+
+  ul[data-gr-classic-challenge-grid] {
+    grid-template-columns: repeat(auto-fill, 64px) !important;
+    gap: 14px 10px !important;
+  }
+
+  ul[data-gr-classic-challenge-grid] > li,
+  ul[data-gr-classic-challenge-grid] > li > li,
+  ul[data-gr-classic-challenge-grid] > li > li > div:first-child,
+  ul[data-gr-classic-challenge-grid] .BookCard__cover,
+  ul[data-gr-classic-challenge-grid] [data-testid="base-clickable"],
+  ul[data-gr-classic-challenge-grid] .BookCover,
+  ul[data-gr-classic-challenge-grid] .BookCover__image,
+  ul[data-gr-classic-challenge-grid] [data-testid="book-cover"],
+  ul[data-gr-classic-challenge-grid] img {
+    width: 64px !important;
+  }
+
+  ul[data-gr-classic-challenge-grid] > li > li > div:first-child,
+  ul[data-gr-classic-challenge-grid] .BookCard__cover,
+  ul[data-gr-classic-challenge-grid] [data-testid="base-clickable"],
+  ul[data-gr-classic-challenge-grid] .BookCover,
+  ul[data-gr-classic-challenge-grid] .BookCover__image,
+  ul[data-gr-classic-challenge-grid] [data-testid="book-cover"],
+  ul[data-gr-classic-challenge-grid] img {
+    height: 96px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ul[data-gr-classic-challenge-grid] img {
+    transition: none;
+  }
+}
