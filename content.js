@@ -32,6 +32,13 @@
     return /^\/readingchallenges\/(?:gr\/)?annual(?:\/|$)/.test(window.location.pathname);
   }
 
+  function waitForLayout() {
+    initialLoadPending = true;
+    document.documentElement?.setAttribute(ATTRIBUTE, "loading");
+    window.clearTimeout(revealTimer);
+    revealTimer = window.setTimeout(finishInitialLoad, INITIAL_REVEAL_TIMEOUT);
+  }
+
   function finishInitialLoad() {
     initialLoadPending = false;
     window.clearTimeout(revealTimer);
@@ -210,6 +217,7 @@
 
     const bookList = findBookList();
     if (!bookList) {
+      if (document.documentElement?.getAttribute(ATTRIBUTE) === "ready") waitForLayout();
       resetLayout();
       return false;
     }
@@ -266,12 +274,13 @@
 
   // Keep the original challenge out of the first paint, but reveal it if
   // Goodreads changes its markup or takes too long to load.
-  document.documentElement?.setAttribute(ATTRIBUTE, "loading");
-  revealTimer = window.setTimeout(finishInitialLoad, INITIAL_REVEAL_TIMEOUT);
+  waitForLayout();
   const observer = new MutationObserver((mutations) => {
     if (initialLoadPending) document.documentElement?.setAttribute(ATTRIBUTE, "loading");
     if (mutations.some((mutation) => !document.getElementById(SUMMARY_ID)?.contains(mutation.target))) {
-      scheduleApply();
+      // Mutation observers run before painting. Apply now so Goodreads cannot
+      // briefly reveal unstyled content when it replaces an already-ready list.
+      if (!applyClassicLayout()) scheduleApply();
     }
   });
   observer.observe(document, {
