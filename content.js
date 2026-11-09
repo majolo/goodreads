@@ -4,6 +4,9 @@
   const ATTRIBUTE = "data-gr-classic-challenge";
   const SUMMARY_ID = "gr-classic-challenge-summary";
   const RETRY_LIMIT = 30;
+  const INITIAL_REVEAL_TIMEOUT = 2000;
+  let initialLoadPending = true;
+  let revealTimer;
   let retryCount = 0;
   let scheduled = false;
 
@@ -29,6 +32,12 @@
     return /^\/readingchallenges\/(?:gr\/)?annual(?:\/|$)/.test(window.location.pathname);
   }
 
+  function finishInitialLoad() {
+    initialLoadPending = false;
+    window.clearTimeout(revealTimer);
+    document.documentElement?.removeAttribute(ATTRIBUTE);
+  }
+
   function resetLayout() {
     document.getElementById(SUMMARY_ID)?.remove();
     for (const suffix of ["hidden", "content", "books", "grid", "layout", "layout-shell"]) {
@@ -37,7 +46,7 @@
         element.removeAttribute(attribute);
       }
     }
-    document.documentElement.removeAttribute(ATTRIBUTE);
+    if (!initialLoadPending) document.documentElement?.removeAttribute(ATTRIBUTE);
   }
 
   function updateText(element, value) {
@@ -194,6 +203,7 @@
 
   function applyClassicLayout() {
     if (!isChallengePage()) {
+      finishInitialLoad();
       resetLayout();
       return true;
     }
@@ -234,6 +244,7 @@
       if (summary.nextElementSibling !== booksSection) booksSection.before(summary);
     }
 
+    finishInitialLoad();
     document.documentElement.setAttribute(ATTRIBUTE, "ready");
     return true;
   }
@@ -251,13 +262,19 @@
     }, 50);
   }
 
-  document.documentElement.setAttribute(ATTRIBUTE, "loading");
+  if (!isChallengePage()) return;
+
+  // Keep the original challenge out of the first paint, but reveal it if
+  // Goodreads changes its markup or takes too long to load.
+  document.documentElement?.setAttribute(ATTRIBUTE, "loading");
+  revealTimer = window.setTimeout(finishInitialLoad, INITIAL_REVEAL_TIMEOUT);
   const observer = new MutationObserver((mutations) => {
+    if (initialLoadPending) document.documentElement?.setAttribute(ATTRIBUTE, "loading");
     if (mutations.some((mutation) => !document.getElementById(SUMMARY_ID)?.contains(mutation.target))) {
       scheduleApply();
     }
   });
-  observer.observe(document.documentElement, {
+  observer.observe(document, {
     attributes: true,
     attributeFilter: ["aria-current", "aria-selected"],
     characterData: true,

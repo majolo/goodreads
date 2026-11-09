@@ -1,5 +1,10 @@
 /* Goodreads Classic Reading Challenge */
 
+/* Leave the header and footer visible while the challenge is prepared. */
+html[data-gr-classic-challenge="loading"] .NoSiderailLayout__content {
+  visibility: hidden !important;
+}
+
 [data-gr-classic-challenge-hidden] {
   display: none !important;
 }
