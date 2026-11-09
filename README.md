@@ -1,46 +1,20 @@
 # Goodreads Classic Reading Challenge
 
-A small Chrome extension that restores the compact, cover-only tiled layout to
-Goodreads annual reading challenge pages.
+A Chrome extension that brings back the compact book-cover grid on Goodreads reading challenge pages.
 
-The extension changes presentation only. It does not call Goodreads APIs,
-collect data, or read the page's embedded authentication values.
+## Install
 
-## Install for testing
+1. [Download the extension](https://github.com/majolo/goodreads/archive/refs/heads/main.zip) and unzip it.
+2. Open `chrome://extensions` in Chrome and turn on **Developer mode**.
+3. Click **Load unpacked** and select the unzipped `goodreads-main` folder.
+4. Open your Goodreads reading challenge and reload the page.
 
-1. Open `chrome://extensions` in Chrome.
-2. Turn on **Developer mode** in the top-right corner.
-3. Click **Load unpacked**.
-4. Select this project folder (the folder containing `manifest.json`).
-5. Open or reload your Goodreads annual challenge details page.
+Keep the folder where it is while the extension is installed. To restore the usual layout, disable or remove the extension and reload Goodreads.
 
-Chrome does not inject newly loaded extensions into tabs that were already
-open, so reload the Goodreads tab after loading or updating the extension.
+## Privacy
 
-## What to verify
+Runs only on Goodreads annual reading challenge pages. No analytics, data collection, or external requests.
 
-- The challenge summary says how many books you have read and your goal.
-- The achievements and large challenge cards are hidden.
-- Book covers appear in a compact responsive grid without title or author text.
-- Covers share a consistent tile height; unusually tall covers scale narrower.
-- Desktop rows contain no more than ten covers and remain centred on the page.
-- Friends' challenges use the owner's name in the progress summary.
-- Clicking a cover still performs the same action as it did in Goodreads' UI.
-- The regular Goodreads header and footer remain visible.
-- Narrowing the browser window produces a smaller mobile-friendly grid.
+If the layout breaks, [open an issue](https://github.com/majolo/goodreads/issues). This is an unofficial extension, not affiliated with Goodreads.
 
-## Troubleshooting
-
-The extension supports both of Goodreads' current annual challenge URL forms:
-
-- `https://www.goodreads.com/readingchallenges/annual`
-- `https://www.goodreads.com/readingchallenges/gr/annual/`
-
-Then open `chrome://extensions`, click **Errors** on this extension if the link
-is present, and inspect the Goodreads tab's developer console for errors.
-
-After editing a file, click the extension's reload button on
-`chrome://extensions`, then reload the Goodreads tab.
-
-To return to the normal Goodreads design, disable or remove the extension and
-reload the page.
+[MIT license](LICENSE).

@@ -18,12 +18,34 @@
   }
 
   function findBookList() {
-    return (
-      document.querySelector('ul[aria-label^="Books read list"]') ||
-      [...document.querySelectorAll("ul")].find((list) =>
-        list.querySelector('[data-testid="book-cover"], .BookCard__cover')
-      )
-    );
+    const labelledList = document.querySelector('ul[aria-label^="Books read list"]');
+    if (labelledList) return labelledList;
+
+    const heading = findByText("h2", /^Books read\s*\([\d,]+\)$/i);
+    return heading?.closest("section")?.querySelector("ul") || null;
+  }
+
+  function isChallengePage() {
+    return /^\/readingchallenges\/(?:gr\/)?annual(?:\/|$)/.test(window.location.pathname);
+  }
+
+  function resetLayout() {
+    document.getElementById(SUMMARY_ID)?.remove();
+    for (const suffix of ["hidden", "content", "books", "grid", "layout", "layout-shell"]) {
+      const attribute = `${ATTRIBUTE}-${suffix}`;
+      for (const element of document.querySelectorAll(`[${attribute}]`)) {
+        element.removeAttribute(attribute);
+      }
+    }
+    document.documentElement.removeAttribute(ATTRIBUTE);
+  }
+
+  function updateText(element, value) {
+    if (element && element.textContent !== value) element.textContent = value;
+  }
+
+  function booksTitle(details) {
+    return details.owner ? `${details.year} BOOKS` : `YOUR ${details.year} BOOKS`;
   }
 
   function extractYear(value) {
@@ -91,12 +113,12 @@
 
   function readChallengeDetails(bookList) {
     const progressText = normaliseText(
-      findByText("strong", /^\d+\s+of\s+\d+\s+books?\s+read$/i)?.textContent
+      findByText("strong", /^[\d,]+\s+of\s+[\d,]+\s+books?\s+read$/i)?.textContent
     );
-    const progressMatch = progressText.match(/(\d+)\s+of\s+(\d+)\s+books?\s+read/i);
+    const progressMatch = progressText.match(/([\d,]+)\s+of\s+([\d,]+)\s+books?\s+read/i);
 
-    const booksHeading = findByText("h2", /^Books read\s*\(\d+\)$/i);
-    const headingMatch = normaliseText(booksHeading?.textContent).match(/\((\d+)\)/);
+    const booksHeading = findByText("h2", /^Books read\s*\([\d,]+\)$/i);
+    const headingMatch = normaliseText(booksHeading?.textContent).match(/\(([\d,]+)\)/);
     const coverCount = bookList.querySelectorAll('[data-testid="book-cover"]').length;
     const visibleBookCount =
       coverCount || bookList.querySelectorAll(".BookCard__cover").length;
@@ -147,7 +169,7 @@
 
     const heading = document.createElement("h1");
     heading.className = "gr-classic-books-heading";
-    heading.textContent = `YOUR ${details.year} BOOKS`;
+    heading.textContent = booksTitle(details);
 
     summary.append(progressRow, divider, heading);
     return summary;
@@ -160,19 +182,31 @@
     }
 
     for (const section of contentRoot.querySelectorAll("section")) {
-      if (section !== booksSection && !section.contains(booksSection)) {
+      if (
+        section !== booksSection &&
+        !section.contains(booksSection) &&
+        !booksSection.contains(section)
+      ) {
         section.setAttribute(`${ATTRIBUTE}-hidden`, "");
       }
     }
   }
 
   function applyClassicLayout() {
+    if (!isChallengePage()) {
+      resetLayout();
+      return true;
+    }
+
     const bookList = findBookList();
-    if (!bookList) return false;
+    if (!bookList) {
+      resetLayout();
+      return false;
+    }
 
     const booksSection = bookList.closest("section") || bookList.parentElement;
     const contentRoot =
-      bookList.closest(".goodreads-children") || booksSection.parentElement;
+      bookList.closest(".goodreads-children") || booksSection?.parentElement;
     if (!booksSection || !contentRoot) return false;
 
     const details = readChallengeDetails(bookList);
@@ -195,8 +229,9 @@
     } else {
       const progress = summary.querySelector(".gr-classic-progress");
       const heading = summary.querySelector(".gr-classic-books-heading");
-      if (progress) progress.textContent = progressSentence(details);
-      if (heading) heading.textContent = `YOUR ${details.year} BOOKS`;
+      updateText(progress, progressSentence(details));
+      updateText(heading, booksTitle(details));
+      if (summary.nextElementSibling !== booksSection) booksSection.before(summary);
     }
 
     document.documentElement.setAttribute(ATTRIBUTE, "ready");
@@ -217,7 +252,11 @@
   }
 
   document.documentElement.setAttribute(ATTRIBUTE, "loading");
-  const observer = new MutationObserver(scheduleApply);
+  const observer = new MutationObserver((mutations) => {
+    if (mutations.some((mutation) => !document.getElementById(SUMMARY_ID)?.contains(mutation.target))) {
+      scheduleApply();
+    }
+  });
   observer.observe(document.documentElement, {
     attributes: true,
     attributeFilter: ["aria-current", "aria-selected"],
