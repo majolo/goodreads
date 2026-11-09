@@ -2,6 +2,8 @@
 
 A Chrome extension that brings back the compact book-cover grid on Goodreads reading challenge pages.
 
+![Compact Goodreads reading challenge book-cover grid](image.jpg)
+
 ## Install
 
 1. [Download the extension](https://github.com/majolo/goodreads/archive/refs/heads/main.zip) and unzip it.
