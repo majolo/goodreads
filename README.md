@@ -15,7 +15,7 @@ Keep the folder where it is while the extension is installed. To restore the usu
 
 ## Privacy
 
-Runs only on Goodreads annual reading challenge pages. No analytics, data collection, or external requests.
+Runs only on Goodreads annual reading challenge pages. Check [manifest.json](manifest.json) to see which pages it can access. No analytics, data collection, or external requests.
 
 If the layout breaks, [open an issue](https://github.com/majolo/goodreads/issues). This is an unofficial extension, not affiliated with Goodreads.
 
