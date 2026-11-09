@@ -31,6 +31,24 @@ html[data-gr-classic-challenge="loading"] .NoSiderailLayout__content {
   margin: 0 0 10px;
 }
 
+.gr-classic-back-link {
+  display: inline-block;
+  margin: 0 0 16px;
+  color: #00635d;
+  font-size: 14px;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.gr-classic-back-link:hover {
+  text-decoration: underline;
+}
+
+.gr-classic-back-link:focus-visible {
+  outline: 2px solid #382110;
+  outline-offset: 3px;
+}
+
 .gr-classic-progress-row {
   display: flex;
   align-items: center;

@@ -164,6 +164,11 @@
     summary.setAttribute("role", "region");
     summary.setAttribute("aria-label", "Reading challenge progress");
 
+    const backLink = document.createElement("a");
+    backLink.className = "gr-classic-back-link";
+    backLink.href = "/readingchallenges";
+    backLink.textContent = "← Reading challenges";
+
     const progressRow = document.createElement("div");
     progressRow.className = "gr-classic-progress-row";
 
@@ -187,7 +192,7 @@
     heading.className = "gr-classic-books-heading";
     heading.textContent = booksTitle(details);
 
-    summary.append(progressRow, divider, heading);
+    summary.append(backLink, progressRow, divider, heading);
     return summary;
   }
 
